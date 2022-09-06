@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:EagleEye.Apps.ViewModels"
+             xmlns:webview="clr-namespace:WebViewControl;assembly=WebViewControl.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="EagleEye.Apps.Views.MainView"
              Foreground="White"
@@ -11,5 +12,5 @@
     <viewModels:MainViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <webview:WebView Address="https://www.google.com"></webview:WebView>
 </UserControl>
