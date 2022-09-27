@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using EagleEye.Apps.ViewModels;
 using EagleEye.Apps.Views;
+using MainWindow = EagleEye.Apps.Windows.MainWindow;
 
 namespace EagleEye.Apps
 {
@@ -24,7 +25,7 @@ namespace EagleEye.Apps
             }
             else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
             {
-                singleViewPlatform.MainView = new MainView
+                singleViewPlatform.MainView = new MainView()
                 {
                     DataContext = new MainViewModel()
                 };

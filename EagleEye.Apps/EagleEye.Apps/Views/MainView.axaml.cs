@@ -1,13 +1,35 @@
-using System;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using Avalonia.Controls;
+using Avalonia.ReactiveUI;
+using EagleEye.Apps.ViewModels;
+using ReactiveUI;
+using WebViewControl;
 
-namespace EagleEye.Apps.Views
+namespace EagleEye.Apps.Views;
+
+public partial class MainView : ReactiveUserControl<MainViewModel>
 {
-    public partial class MainView : UserControl
+    #region Constructor
+
+    public MainView()
     {
-        public MainView()
+        this.WhenActivated(disposables =>
         {
-            InitializeComponent();
-        }
+            _webView.Events().Initialized
+                .Select(_ => this._webView)
+                .InvokeCommand(ViewModel!.OnWebViewReady)
+                .DisposeWith(disposables);
+        });
+        InitializeComponent();
     }
+
+    #endregion
+
+    #region Properties
+
+    // Assume the Button control has the Name="ExampleButton" attribute defined in XAML.
+    private WebView _webView => this.FindControl<WebView>("webView");
+
+    #endregion
 }

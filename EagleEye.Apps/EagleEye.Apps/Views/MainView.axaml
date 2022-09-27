@@ -12,5 +12,6 @@
     <viewModels:MainViewModel />
   </Design.DataContext>
 
-    <webview:WebView Address="https://www.google.com"></webview:WebView>
+    <webview:WebView Name="webView"
+                     Address="https://www.google.com"></webview:WebView>
 </UserControl>

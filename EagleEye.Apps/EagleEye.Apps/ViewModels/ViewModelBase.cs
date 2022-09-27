@@ -1,8 +1,12 @@
-﻿using ReactiveUI;
+using ReactiveUI;
 
-namespace EagleEye.Apps.ViewModels
+namespace EagleEye.Apps.ViewModels;
+
+public class ViewModelBase : ReactiveObject, IActivatableViewModel
 {
-    public class ViewModelBase : ReactiveObject
-    {
-    }
+    #region Accessors
+    
+    public ViewModelActivator Activator { get; } = new();
+    
+    #endregion
 }
