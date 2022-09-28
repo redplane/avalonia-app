@@ -5,6 +5,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="EagleEye.Apps.Views.SplashView">
     
-    <TextBlock>Splash screen</TextBlock>
+    <Grid VerticalAlignment="Center" 
+          HorizontalAlignment="Center">
+        <TextBlock>Loading...</TextBlock>
+    </Grid>
     
 </UserControl>

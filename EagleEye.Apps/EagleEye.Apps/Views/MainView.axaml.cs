@@ -28,7 +28,6 @@ public partial class MainView : ReactiveUserControl<MainViewModel>
 
     #region Properties
 
-    // Assume the Button control has the Name="ExampleButton" attribute defined in XAML.
     private WebView _webView => this.FindControl<WebView>("webView");
 
     #endregion

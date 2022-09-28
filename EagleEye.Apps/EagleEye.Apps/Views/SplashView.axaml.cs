@@ -1,9 +1,10 @@
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
+using EagleEye.Apps.ViewModels;
 
 namespace EagleEye.Apps.Views;
 
-public partial class SplashView : UserControl
+public partial class SplashView : ReactiveUserControl<SplashViewModel>
 {
     #region Constructor
     

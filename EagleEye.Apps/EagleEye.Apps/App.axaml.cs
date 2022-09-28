@@ -1,9 +1,12 @@
+using System.Reflection;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using EagleEye.Apps.ViewModels;
 using EagleEye.Apps.Views;
-using MainWindow = EagleEye.Apps.Windows.MainWindow;
+using EagleEye.Apps.Windows;
+using ReactiveUI;
+using Splat;
 
 namespace EagleEye.Apps
 {
@@ -16,19 +19,22 @@ namespace EagleEye.Apps
 
         public override void OnFrameworkInitializationCompleted()
         {
+            Locator.CurrentMutable.RegisterViewsForViewModels(typeof(ViewLocator).Assembly);
+            Locator.CurrentMutable.Register(() => new MainWindowViewModel());
+
+            var mainWindowViewModel = Locator.Current.GetService<MainWindowViewModel>();
+            Locator.CurrentMutable.Register<IScreen>(() => mainWindowViewModel);
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow
-                {
-                    DataContext = new MainViewModel()
-                };
+                var viewForMainWindow = Locator.Current.GetService<IViewFor<MainWindowViewModel>>();
+                if (viewForMainWindow is MainWindow mainWindow)
+                    desktop.MainWindow = mainWindow;
             }
             else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
             {
-                singleViewPlatform.MainView = new MainView()
-                {
-                    DataContext = new MainViewModel()
-                };
+                var mainView = Locator.Current.GetService<MainView>();
+                singleViewPlatform.MainView = mainView;
             }
 
             base.OnFrameworkInitializationCompleted();
