@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>8</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Avalonia" Version="0.10.18" />
+      <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
+      <PackageReference Include="System.IO.Abstractions" Version="17.2.3" />
+      <PackageReference Include="WebViewControl-Avalonia" Version="2.91.28" />
+    </ItemGroup>
+
+</Project>

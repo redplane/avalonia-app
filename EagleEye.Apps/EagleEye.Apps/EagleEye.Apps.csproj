@@ -22,4 +22,7 @@
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Back-end\RxMessageBus\RxMessageBus\RxMessageBus.csproj" />
+    </ItemGroup>
 </Project>

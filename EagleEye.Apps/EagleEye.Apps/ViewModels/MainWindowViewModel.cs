@@ -2,8 +2,11 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia.ReactiveUI;
+using EagleEye.Apps.Models;
+using EagleEye.Apps.Models.MessageEvents;
 using EagleEye.Apps.Views;
 using EagleEye.Apps.Windows;
+using LiteMessageBus.Services.Interfaces;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
 using Splat;
@@ -31,16 +34,24 @@ public class MainWindowViewModel : ReactiveObject, IActivatableViewModel, IScree
         {
             Router.NavigateAndReset.Execute(new SplashViewModel(this));
             Disposable
-                .Create(() => { })
+                .Create(() =>
+                {
+                    
+                    
+                })
                 .DisposeWith(disposables);
         });
+        
     }
 
     #endregion
 
     #region Methods
 
-    public ReactiveCommand<Unit, Unit> OnViewReady { get; }
+    private readonly ReactiveCommand<NavigationCommand, Unit> _navigate = ReactiveCommand.Create<NavigationCommand>(message =>
+    {
+        message.Router.Navigate.Execute(message.ViewModel);
+    });
 
     #endregion
 }

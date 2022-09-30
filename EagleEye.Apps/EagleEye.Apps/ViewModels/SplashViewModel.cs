@@ -1,4 +1,11 @@
+using System;
+using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using EagleEye.Apps.Constants;
+using EagleEye.Apps.Models.MessageEvents;
+using LiteMessageBus.Services.Interfaces;
 using ReactiveUI;
 using Splat;
 
@@ -13,7 +20,17 @@ public class SplashViewModel : ReactiveObject, IActivatableViewModel, IRoutableV
     public string? UrlPathSegment => "splash";
     
     public IScreen HostScreen { get; }
-    
+
+    public readonly ReactiveCommand<Unit, Unit> OnViewInitialized = ReactiveCommand.CreateFromObservable(
+        () => Observable.Start(() => { }, TaskPoolScheduler.Default)
+            .Delay(TimeSpan.FromSeconds(3))
+            .Do(_ =>
+            {
+                var messageBusService = Locator.Current.GetService<IRxMessageBus>();
+                messageBusService.AddMessage<string>(MessageChannelNames.MainWindow, NavigationMessageEvents.Navigation, ScreenCodes.Main);
+            })
+        );
+
     #endregion
 
     #region Constructor

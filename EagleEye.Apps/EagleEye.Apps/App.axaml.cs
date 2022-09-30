@@ -5,6 +5,8 @@ using Avalonia.Markup.Xaml;
 using EagleEye.Apps.ViewModels;
 using EagleEye.Apps.Views;
 using EagleEye.Apps.Windows;
+using LiteMessageBus.Services.Implementations;
+using LiteMessageBus.Services.Interfaces;
 using ReactiveUI;
 using Splat;
 
@@ -20,7 +22,8 @@ namespace EagleEye.Apps
         public override void OnFrameworkInitializationCompleted()
         {
             Locator.CurrentMutable.RegisterViewsForViewModels(typeof(ViewLocator).Assembly);
-            Locator.CurrentMutable.Register(() => new MainWindowViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new MainWindowViewModel());
+            Locator.CurrentMutable.RegisterLazySingleton<IRxMessageBus>(() => new InMemoryRxMessageService());
 
             var mainWindowViewModel = Locator.Current.GetService<MainWindowViewModel>();
             Locator.CurrentMutable.Register<IScreen>(() => mainWindowViewModel);

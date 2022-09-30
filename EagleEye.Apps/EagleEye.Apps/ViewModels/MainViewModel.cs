@@ -38,7 +38,6 @@ namespace EagleEye.Apps.ViewModels
         public ReactiveCommand<WebView,Unit> OnWebViewReady = ReactiveCommand.Create<WebView>(
             webView =>
             {
-                webView.ShowDeveloperTools();
                 webView.RegisterJavascriptObject("MyAndroid", new PlatformFeature());
             });
         

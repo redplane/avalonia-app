@@ -7,7 +7,7 @@
     
     <Grid VerticalAlignment="Center" 
           HorizontalAlignment="Center">
-        <TextBlock>Loading...</TextBlock>
+        <TextBlock>Loading ...</TextBlock>
     </Grid>
     
 </UserControl>
