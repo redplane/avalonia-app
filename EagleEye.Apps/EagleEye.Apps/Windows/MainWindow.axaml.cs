@@ -13,6 +13,7 @@ using EagleEye.Apps.Constants;
 using EagleEye.Apps.Models.MessageEvents;
 using EagleEye.Apps.ViewModels;
 using LiteMessageBus.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using Splat;
 
@@ -20,13 +21,20 @@ namespace EagleEye.Apps.Windows
 {
     public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
+        #region Properties
+        
         private readonly LinkedList<IDisposable> _subscriptions;
         
         private RoutedViewHost _viewHost => this.FindControl<RoutedViewHost>("RoutedViewHost");
         
+        #endregion
+        
+        #region Constructor
+        
         public MainWindow()
         {
             _subscriptions = new LinkedList<IDisposable>();
+            
             ViewModel = Locator.Current.GetService<MainWindowViewModel>();
             
             this.WhenActivated(disposables =>
@@ -38,12 +46,18 @@ namespace EagleEye.Apps.Windows
             
             InitializeComponent();
         }
+        
+        #endregion
+        
+        #region Internal methods
 
         protected override void OnInitialized()
         {
+            _subscriptions.Clear();
+            
             base.OnInitialized();
 
-            var messageBus = Locator.Current.GetService<IRxMessageBus>();
+            var messageBus = Locator.Current.GetService<IRxMessageBus>()!;
             var subscription = messageBus.HookMessageChannel<string>(MessageChannelNames.MainWindow, 
                     NavigationMessageEvents.Navigation)
                 .ObserveOn(RxApp.TaskpoolScheduler)
@@ -52,9 +66,8 @@ namespace EagleEye.Apps.Windows
                 {
                     RxApp.MainThreadScheduler.Schedule(() =>
                     {
-                        var mainWindowViewModel = Locator.Current.GetService<MainWindowViewModel>();
                         if (screenCode == ScreenCodes.Main)
-                            _viewHost.Router.Navigate.Execute(new MainViewModel(mainWindowViewModel));
+                            _viewHost.Router.Navigate.Execute(new MainViewModel());
                     });
 
                 });
@@ -68,5 +81,7 @@ namespace EagleEye.Apps.Windows
             
             base.OnClosed(e);
         }
+        
+        #endregion
     }
 }

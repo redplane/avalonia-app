@@ -1,7 +1,11 @@
+using System;
 using System.Reflection;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using EagleEye.Apps.Models;
+using EagleEye.Apps.Services.Abstractions;
+using EagleEye.Apps.Services.Implementations;
 using EagleEye.Apps.ViewModels;
 using EagleEye.Apps.Views;
 using EagleEye.Apps.Windows;
@@ -24,6 +28,8 @@ namespace EagleEye.Apps
             Locator.CurrentMutable.RegisterViewsForViewModels(typeof(ViewLocator).Assembly);
             Locator.CurrentMutable.RegisterLazySingleton(() => new MainWindowViewModel());
             Locator.CurrentMutable.RegisterLazySingleton<IRxMessageBus>(() => new InMemoryRxMessageService());
+            Locator.CurrentMutable.RegisterConstant<IConfigurationService>(new ConfigurationService());
+            Locator.CurrentMutable.Register<IPwaService>(() => new PwaService());
 
             var mainWindowViewModel = Locator.Current.GetService<MainWindowViewModel>();
             Locator.CurrentMutable.Register<IScreen>(() => mainWindowViewModel);

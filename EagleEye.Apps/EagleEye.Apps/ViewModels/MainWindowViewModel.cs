@@ -1,3 +1,4 @@
+using System;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -8,6 +9,7 @@ using EagleEye.Apps.Views;
 using EagleEye.Apps.Windows;
 using LiteMessageBus.Services.Interfaces;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using Splat;
 

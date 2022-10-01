@@ -16,19 +16,13 @@ public partial class MainView : ReactiveUserControl<MainViewModel>
     {
         this.WhenActivated(disposables =>
         {
-            _webView.Events().Initialized
-                .Select(_ => this._webView)
-                .InvokeCommand(ViewModel!.OnWebViewReady)
+            this.Events().Initialized
+                .Select(_ => this as ContentControl)
+                .InvokeCommand(ViewModel!.OnViewReady)
                 .DisposeWith(disposables);
         });
         InitializeComponent();
     }
-
-    #endregion
-
-    #region Properties
-
-    private WebView _webView => this.FindControl<WebView>("webView");
 
     #endregion
 }
