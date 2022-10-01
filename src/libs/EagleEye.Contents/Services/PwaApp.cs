@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using EagleEye.Contents.Constants;
 using EagleEye.Contents.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -43,6 +47,8 @@ namespace EagleEye.Contents.Services
 
         public void Show(ContentControl contentControl)
         {
+            var webView = new WebView();
+
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             
@@ -83,21 +89,27 @@ namespace EagleEye.Contents.Services
                     }
                 }
 
+                // Get a free port
+                var port = GetAvailablePort(1024);
+                var endPoint = $"http://localhost:{port}";
+                
                 // Start the kestrel server.
                 var host = new WebHostBuilder()
                     .UseKestrel()
                     .UseContentRoot(absoluteWebContentDirectory)
                     .UseStartup<Startup>()
-                    .UseUrls("http://0.0.0.0:5005")
+                    .UseUrls(endPoint)
                     .Build();
                 
-                await host.RunAsync();
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    contentControl.Content = webView;
+                    webView.LoadUrl(endPoint);
+                    webView.ShowDeveloperTools();
+                });
+                
+                await host.RunAsync(_cancellationTokenSource.Token);
             }, _cancellationTokenSource.Token);
-            
-            var webView = new WebView();
-            contentControl.Content = webView;
-            webView.LoadUrl("http://localhost:5005");
-            webView.ShowDeveloperTools();
         }
         
         public void Dispose()
@@ -170,8 +182,39 @@ namespace EagleEye.Contents.Services
             return designatedFileName;
         }
         
-        #endregion
+        private int GetAvailablePort(int startingPort)
+        {
+            var portArray = new List<int>();
 
+            var properties = IPGlobalProperties.GetIPGlobalProperties();
+
+            // Ignore active connections
+            var connections = properties.GetActiveTcpConnections();
+            portArray.AddRange(from n in connections
+                where n.LocalEndPoint.Port >= startingPort
+                select n.LocalEndPoint.Port);
+
+            // Ignore active tcp listners
+            var endPoints = properties.GetActiveTcpListeners();
+            portArray.AddRange(from n in endPoints
+                where n.Port >= startingPort
+                select n.Port);
+
+            // Ignore active UDP listeners
+            endPoints = properties.GetActiveUdpListeners();
+            portArray.AddRange(from n in endPoints
+                where n.Port >= startingPort
+                select n.Port);
+
+            portArray.Sort();
+
+            for (var i = startingPort; i < UInt16.MaxValue; i++)
+                if (!portArray.Contains(i))
+                    return i;
+
+            return 0;
+        }
         
+        #endregion
     }
 }

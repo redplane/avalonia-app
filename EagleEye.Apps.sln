@@ -1,18 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleEye.Apps", "EagleEye.Apps\EagleEye.Apps\EagleEye.Apps.csproj", "{9372B82B-2CF9-4DAE-A8A4-07E05D5FDEBF}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleEye.Apps", "src\desktop-apps\EagleEye.Apps\EagleEye.Apps.csproj", "{9372B82B-2CF9-4DAE-A8A4-07E05D5FDEBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleEye.Apps.Desktop", "EagleEye.Apps\EagleEye.Apps.Desktop\EagleEye.Apps.Desktop.csproj", "{E7585D0F-2CA8-40AE-BA44-921320C0B875}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleEye.Apps.Desktop", "src\desktop-apps\EagleEye.Apps.Desktop\EagleEye.Apps.Desktop.csproj", "{E7585D0F-2CA8-40AE-BA44-921320C0B875}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5094F111-B411-4713-B1BC-816AEA30D6BA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{644F3707-4BE9-4B70-855D-DF9A60B9A8C6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "desktop-apps", "desktop-apps", "{644F3707-4BE9-4B70-855D-DF9A60B9A8C6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{8B3FA7E7-A1BA-4738-AAEC-E93E99FD8D85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RxMessageBus", "..\..\Back-end\RxMessageBus\RxMessageBus\RxMessageBus.csproj", "{87D2842B-756B-41C1-8588-57CA36FBDE8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxMessageBus", "..\..\Back-end\RxMessageBus\RxMessageBus\RxMessageBus.csproj", "{87D2842B-756B-41C1-8588-57CA36FBDE8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleEye.Contents", "libs\EagleEye.Contents\EagleEye.Contents.csproj", "{797D13F9-A4E0-4200-8C49-80B982C9EE59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleEye.Contents", "src\libs\EagleEye.Contents\EagleEye.Contents.csproj", "{797D13F9-A4E0-4200-8C49-80B982C9EE59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,12 +40,18 @@ Global
 		{797D13F9-A4E0-4200-8C49-80B982C9EE59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{797D13F9-A4E0-4200-8C49-80B982C9EE59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{644F3707-4BE9-4B70-855D-DF9A60B9A8C6} = {5094F111-B411-4713-B1BC-816AEA30D6BA}
 		{9372B82B-2CF9-4DAE-A8A4-07E05D5FDEBF} = {644F3707-4BE9-4B70-855D-DF9A60B9A8C6}
 		{E7585D0F-2CA8-40AE-BA44-921320C0B875} = {644F3707-4BE9-4B70-855D-DF9A60B9A8C6}
+		{644F3707-4BE9-4B70-855D-DF9A60B9A8C6} = {5094F111-B411-4713-B1BC-816AEA30D6BA}
 		{8B3FA7E7-A1BA-4738-AAEC-E93E99FD8D85} = {5094F111-B411-4713-B1BC-816AEA30D6BA}
 		{87D2842B-756B-41C1-8588-57CA36FBDE8B} = {8B3FA7E7-A1BA-4738-AAEC-E93E99FD8D85}
 		{797D13F9-A4E0-4200-8C49-80B982C9EE59} = {8B3FA7E7-A1BA-4738-AAEC-E93E99FD8D85}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {39C8A8BE-0A3A-43FE-BDF8-2CCB1346B5B8}
 	EndGlobalSection
 EndGlobal
