@@ -10,8 +10,11 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
 using EagleEye.Contents.Constants;
+using EagleEye.Contents.Handlers;
+using EagleEye.Contents.Interfaces;
 using EagleEye.Contents.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using WebViewControl;
 
 namespace EagleEye.Contents.Services
@@ -45,12 +48,24 @@ namespace EagleEye.Contents.Services
         
         #region Methods
 
-        public void Show(ContentControl contentControl)
+        public void Show(ContentControl contentControl,
+            Type[] nativeMethodTypes = null)
         {
             var webView = new WebView();
 
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
+
+            var services = new ServiceCollection();
+            if (nativeMethodTypes != null)
+            {
+                foreach (var nativeMethod in nativeMethodTypes)
+                    services.AddScoped(typeof(INativeMethod), nativeMethod);
+            }
+            services.AddSingleton(webView);
+            
+            // Build the service provider
+            var serviceProvider = services.BuildServiceProvider();
             
             Task.Run(async () =>
             {
@@ -89,6 +104,8 @@ namespace EagleEye.Contents.Services
                     }
                 }
 
+                webView.RegisterJavascriptObject("Android", new MethodExecutor(serviceProvider));
+                
                 // Get a free port
                 var port = GetAvailablePort(1024);
                 var endPoint = $"http://localhost:{port}";
@@ -100,7 +117,7 @@ namespace EagleEye.Contents.Services
                     .UseStartup<Startup>()
                     .UseUrls(endPoint)
                     .Build();
-                
+
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     contentControl.Content = webView;
