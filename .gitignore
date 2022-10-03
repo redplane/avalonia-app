@@ -1,1 +1,9 @@
+/src/desktop-apps/EagleEye.Apps/obj
+/src/desktop-apps/EagleEye.Apps/.idea
+/src/desktop-apps/EagleEye.Apps/bin
+/src/desktop-apps/EagleEye.Apps.Desktop/obj
+/src/desktop-apps/EagleEye.Apps.Desktop/bin
+/src/libs/EagleEye.Contents/obj
+/src/libs/EagleEye.Contents/bin
 /.idea
+/.vs
