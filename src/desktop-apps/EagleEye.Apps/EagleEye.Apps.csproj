@@ -13,6 +13,7 @@
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
         <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
         <PackageReference Include="Avalonia.ReactiveUI.Events" Version="0.10.18" />
+        <PackageReference Include="DesktopNotifications" Version="1.2.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="SemanticVersioning" Version="2.0.2" />

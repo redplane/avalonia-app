@@ -8,7 +8,7 @@ namespace EagleEye.Contents.Interfaces
     {
         #region Methods
 
-        Task<MethodExecutionResult> ExecuteAsync(NativeRequest request, CancellationToken cancellationToken = default);
+        Task<MethodExecutionResult> ExecuteAsync(NativeRequest request, string rawData = default, CancellationToken cancellationToken = default);
 
         #endregion
     }

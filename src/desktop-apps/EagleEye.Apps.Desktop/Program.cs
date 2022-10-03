@@ -1,6 +1,7 @@
 ﻿using System;
 using Avalonia;
 using Avalonia.ReactiveUI;
+using DesktopNotifications.Avalonia;
 
 namespace EagleEye.Apps.Desktop;
 
@@ -20,6 +21,7 @@ internal class Program
     public static AppBuilder BuildAvaloniaApp()
     {
         return AppBuilder.Configure<App>()
+            .SetupDesktopNotifications()
             .UseReactiveUI()
             .UsePlatformDetect()
             .LogToTrace();

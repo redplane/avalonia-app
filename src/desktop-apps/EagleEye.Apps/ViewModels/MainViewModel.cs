@@ -7,6 +7,7 @@ using EagleEye.Apps.Models;
 using EagleEye.Apps.Models.Pwas;
 using EagleEye.Apps.Services.Abstractions;
 using EagleEye.Contents.Models;
+using EagleEye.Contents.Models.PwaOptions;
 using EagleEye.Contents.Services;
 using ReactiveUI;
 using Splat;
@@ -76,8 +77,9 @@ namespace EagleEye.Apps.ViewModels
                     
                     return content;
                 });
-                
-                var pwaApp = new PwaApp(hasUpdateAsyncHandler, downloadUpdateAsyncHandler);
+
+                var onlinePwaOption = new OnlinePwaOption("http://localhost:4200");
+                var pwaApp = new PwaApp(onlinePwaOption);
                 pwaApp.Show(contentControl);
             });
 

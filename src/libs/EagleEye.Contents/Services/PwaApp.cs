@@ -7,12 +7,16 @@ using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
 using EagleEye.Contents.Constants;
 using EagleEye.Contents.Handlers;
 using EagleEye.Contents.Interfaces;
+using EagleEye.Contents.Methods;
 using EagleEye.Contents.Models;
+using EagleEye.Contents.Models.PwaOptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WebViewControl;
@@ -23,29 +27,25 @@ namespace EagleEye.Contents.Services
     {
         #region Properties
 
-        private readonly Func<Task<GetNextPwaVersionResult>> _checkNextUpdateAsyncCallback;
-
-        private readonly Func<DownloadPwaContentRequest, Task<byte[]>> _downloadUpdateAsyncCallback;
-
         private readonly string _webContentFolder = Folders.WebContent;
 
         private readonly string _temporaryFolder = Folders.TemporaryFolder;
 
         private CancellationTokenSource _cancellationTokenSource;
 
+        private readonly PwaOption _options;
+
         #endregion
-        
+
         #region Constructor
 
-        public PwaApp(Func<Task<GetNextPwaVersionResult>> checkNextUpdateAsyncCallback = null, 
-            Func<DownloadPwaContentRequest, Task<byte[]>> downloadUpdateAsyncCallback = null)
+        public PwaApp(PwaOption options)
         {
-            _checkNextUpdateAsyncCallback = checkNextUpdateAsyncCallback;
-            _downloadUpdateAsyncCallback = downloadUpdateAsyncCallback;
+            _options = options;
         }
 
         #endregion
-        
+
         #region Methods
 
         public void Show(ContentControl contentControl,
@@ -62,62 +62,79 @@ namespace EagleEye.Contents.Services
                 foreach (var nativeMethod in nativeMethodTypes)
                     services.AddScoped(typeof(INativeMethod), nativeMethod);
             }
-            services.AddSingleton(webView);
             
+            // Built in native method.
+            services.AddScoped<INativeMethod, LocalPushNativeMethod>();
+            services.AddSingleton(webView);
+
+            services.AddSingleton(AvaloniaLocator.Current.GetService<DesktopNotifications.INotificationManager>()!);
+
             // Build the service provider
             var serviceProvider = services.BuildServiceProvider();
-            
+            var endPoint = string.Empty;
+
             Task.Run(async () =>
             {
                 // Create a folder to store web content.
                 var absoluteWebContentDirectory = MakeContentDirectory();
                 var temporaryDirectory = MakeTemporaryDirectory();
 
-                if (_checkNextUpdateAsyncCallback != null)
+                if (_options is OfflinePwaOption offlinePwaOption)
                 {
-                    var nextUpdate = await _checkNextUpdateAsyncCallback();
-                    if (nextUpdate != null && _downloadUpdateAsyncCallback != null)
+                    var checkNextUpdateAsyncCallback = offlinePwaOption.CheckNextUpdateHandler;
+                    var downloadUpdateAsyncCallback = offlinePwaOption.DownloadUpdateHandler;
+
+                    if (checkNextUpdateAsyncCallback != null)
                     {
-                        var downloadRequest = new DownloadPwaContentRequest();
-                        downloadRequest.Version = nextUpdate.Version;
-                        downloadRequest.DownloadUrl = nextUpdate.DownloadUrl;
+                        var nextUpdate = await checkNextUpdateAsyncCallback();
+                        if (nextUpdate != null)
+                        {
+                            var downloadRequest = new DownloadPwaContentRequest();
+                            downloadRequest.Version = nextUpdate.Version;
+                            downloadRequest.DownloadUrl = nextUpdate.DownloadUrl;
 
-                        var downloadedContent = await _downloadUpdateAsyncCallback(downloadRequest);
-                        if (downloadedContent == null)
-                            throw new Exception("Something went wrong while downloading the PWA content update");
+                            var downloadedContent = await downloadUpdateAsyncCallback(downloadRequest);
+                            if (downloadedContent == null)
+                                throw new Exception("Something went wrong while downloading the PWA content update");
 
-                        // Delete every thing before extracting.
-                        ClearFolder(absoluteWebContentDirectory);
+                            // Delete every thing before extracting.
+                            ClearFolder(absoluteWebContentDirectory);
 
-                        // Save the downloaded content to folder.
-                        var downloadedZipFile = await SaveAsAsync(temporaryDirectory, downloadedContent);
+                            // Save the downloaded content to folder.
+                            var downloadedZipFile = await SaveAsAsync(temporaryDirectory, downloadedContent);
 
-                        var extractPath = absoluteWebContentDirectory;
-                        if (!extractPath.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
-                            extractPath += Path.DirectorySeparatorChar;
+                            var extractPath = absoluteWebContentDirectory;
+                            if (!extractPath.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
+                                extractPath += Path.DirectorySeparatorChar;
 
-                        // Extract the zip file to the web content folder.
-                        ZipFile.ExtractToDirectory(downloadedZipFile, extractPath);
+                            // Extract the zip file to the web content folder.
+                            ZipFile.ExtractToDirectory(downloadedZipFile, extractPath);
 
-                        // Delete the temporary file.
-                        File.Delete(downloadedZipFile);
+                            // Delete the temporary file.
+                            File.Delete(downloadedZipFile);
+                        }
                     }
+
+                    // Get a free port
+                    var port = GetAvailablePort(1024);
+                    endPoint = $"http://localhost:{port}";
+
+                    // Start the kestrel server.
+                    var host = new WebHostBuilder()
+                        .UseKestrel()
+                        .UseContentRoot(absoluteWebContentDirectory)
+                        .UseStartup<Startup>()
+                        .UseUrls(endPoint)
+                        .Build();
+
+                    host.RunAsync(_cancellationTokenSource.Token);
+                }
+                else if (_options is OnlinePwaOption onlinePwaOption)
+                {
+                    endPoint = onlinePwaOption.Endpoint;
                 }
 
                 webView.RegisterJavascriptObject("Android", new MethodExecutor(serviceProvider));
-                
-                // Get a free port
-                var port = GetAvailablePort(1024);
-                var endPoint = $"http://localhost:{port}";
-                
-                // Start the kestrel server.
-                var host = new WebHostBuilder()
-                    .UseKestrel()
-                    .UseContentRoot(absoluteWebContentDirectory)
-                    .UseStartup<Startup>()
-                    .UseUrls(endPoint)
-                    .Build();
-
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     contentControl.Content = webView;
@@ -125,17 +142,16 @@ namespace EagleEye.Contents.Services
                     webView.ShowDeveloperTools();
                 });
                 
-                await host.RunAsync(_cancellationTokenSource.Token);
             }, _cancellationTokenSource.Token);
         }
-        
+
         public void Dispose()
         {
             _cancellationTokenSource?.Cancel();
         }
-        
+
         #endregion
-        
+
         #region Internal methods
 
         private string MakeContentDirectory()
@@ -143,48 +159,52 @@ namespace EagleEye.Contents.Services
             var currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             if (string.IsNullOrEmpty(currentDirectory))
                 throw new Exception("Cannot create web content directory.");
-            
+
             var webContentDirectory = Path.Combine(currentDirectory, _webContentFolder);
             if (!Directory.Exists(webContentDirectory))
                 Directory.CreateDirectory(webContentDirectory);
 
             return webContentDirectory;
         }
-        
+
         private string MakeTemporaryDirectory()
         {
             var currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             if (string.IsNullOrEmpty(currentDirectory))
                 throw new Exception("Cannot temporary directory.");
-            
+
             var temporaryDirectory = Path.Combine(currentDirectory, _temporaryFolder);
             if (!Directory.Exists(temporaryDirectory))
                 Directory.CreateDirectory(temporaryDirectory);
 
             return temporaryDirectory;
         }
-        
+
         private void ClearFolder(string folderName)
         {
             var dir = new DirectoryInfo(folderName);
 
-            foreach(var fi in dir.GetFiles())
+            foreach (var fi in dir.GetFiles())
             {
                 try
                 {
                     fi.Delete();
                 }
-                catch(Exception) { } // Ignore all exceptions
+                catch (Exception)
+                {
+                } // Ignore all exceptions
             }
 
-            foreach(DirectoryInfo di in dir.GetDirectories())
+            foreach (DirectoryInfo di in dir.GetDirectories())
             {
                 ClearFolder(di.FullName);
                 try
                 {
                     di.Delete();
                 }
-                catch(Exception) { } // Ignore all exceptions
+                catch (Exception)
+                {
+                } // Ignore all exceptions
             }
         }
 
@@ -198,7 +218,7 @@ namespace EagleEye.Contents.Services
 
             return designatedFileName;
         }
-        
+
         private int GetAvailablePort(int startingPort)
         {
             var portArray = new List<int>();
@@ -231,7 +251,7 @@ namespace EagleEye.Contents.Services
 
             return 0;
         }
-        
+
         #endregion
     }
 }

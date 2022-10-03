@@ -29,7 +29,7 @@ namespace EagleEye.Contents.Handlers
         
         #region Methods
 
-        public virtual void PostMessage<T>(NativeRequest<T> nativeRequest)
+        public virtual void PostMessage(string szNativeRequest)
         {
             using var serviceScope = _serviceProvider.CreateScope();
             var serviceProvider = serviceScope.ServiceProvider;
@@ -40,10 +40,10 @@ namespace EagleEye.Contents.Handlers
                 return;
 
             var webView = serviceProvider.GetService<WebView>()!;
-
+            var nativeRequest = JsonConvert.DeserializeObject<NativeRequest<object>>(szNativeRequest)!;
             foreach (var nativeMethod in nativeMethods)
             {
-                var executionResult = nativeMethod.ExecuteAsync(nativeRequest).Result;
+                var executionResult = nativeMethod.ExecuteAsync(nativeRequest, JsonConvert.SerializeObject(nativeRequest.Data)).Result;
                 if (executionResult.Result == ExecutionResults.Skipped)
                     continue;
 
@@ -59,7 +59,7 @@ namespace EagleEye.Contents.Handlers
                 return;
             }
         }
-        
+
         #endregion
     }
 }
