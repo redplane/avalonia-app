@@ -78,8 +78,8 @@ namespace EagleEye.Apps.ViewModels
                     return content;
                 });
 
-                var onlinePwaOption = new OnlinePwaOption("http://localhost:4200");
-                var pwaApp = new PwaApp(onlinePwaOption);
+                var offlinePwaOption = new OfflinePwaOption(hasUpdateAsyncHandler, downloadUpdateAsyncHandler);
+                var pwaApp = new PwaApp(offlinePwaOption);
                 pwaApp.Show(contentControl);
             });
 

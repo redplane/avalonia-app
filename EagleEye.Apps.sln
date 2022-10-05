@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxMessageBus", "..\..\Back-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleEye.Contents", "src\libs\EagleEye.Contents\EagleEye.Contents.csproj", "{797D13F9-A4E0-4200-8C49-80B982C9EE59}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobile-apps", "mobile-apps", "{28E8FBD5-F466-4AA5-BE16-AA1B29549B39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleEye.Apps.Mobile", "src\mobile-apps\EagleEye.Apps.Mobile\EagleEye.Apps.Mobile.csproj", "{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,10 @@ Global
 		{797D13F9-A4E0-4200-8C49-80B982C9EE59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{797D13F9-A4E0-4200-8C49-80B982C9EE59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{797D13F9-A4E0-4200-8C49-80B982C9EE59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +58,8 @@ Global
 		{8B3FA7E7-A1BA-4738-AAEC-E93E99FD8D85} = {5094F111-B411-4713-B1BC-816AEA30D6BA}
 		{87D2842B-756B-41C1-8588-57CA36FBDE8B} = {8B3FA7E7-A1BA-4738-AAEC-E93E99FD8D85}
 		{797D13F9-A4E0-4200-8C49-80B982C9EE59} = {8B3FA7E7-A1BA-4738-AAEC-E93E99FD8D85}
+		{28E8FBD5-F466-4AA5-BE16-AA1B29549B39} = {5094F111-B411-4713-B1BC-816AEA30D6BA}
+		{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523} = {28E8FBD5-F466-4AA5-BE16-AA1B29549B39}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39C8A8BE-0A3A-43FE-BDF8-2CCB1346B5B8}
