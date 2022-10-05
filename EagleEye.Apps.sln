@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleEye.Contents", "src\li
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobile-apps", "mobile-apps", "{28E8FBD5-F466-4AA5-BE16-AA1B29549B39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleEye.Apps.Mobile", "src\mobile-apps\EagleEye.Apps.Mobile\EagleEye.Apps.Mobile.csproj", "{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleEye.Apps.Mobile", "src\mobile-apps\EagleEye.Apps.Mobile\EagleEye.Apps.Mobile.csproj", "{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +45,7 @@ Global
 		{797D13F9-A4E0-4200-8C49-80B982C9EE59}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA9C4F68-87A1-4FF3-86A8-F12F33C2B523}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
