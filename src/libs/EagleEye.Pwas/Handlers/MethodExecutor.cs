@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
-using EagleEye.Contents.Enums;
-using EagleEye.Contents.Interfaces;
-using EagleEye.Contents.Models;
+using EagleEye.Pwas.Enums;
+using EagleEye.Pwas.Interfaces;
+using EagleEye.Pwas.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using WebViewControl;
 
-namespace EagleEye.Contents.Handlers
+namespace EagleEye.Pwas.Handlers
 {
     internal class MethodExecutor
     {

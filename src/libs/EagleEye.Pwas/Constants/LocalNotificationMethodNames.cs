@@ -1,4 +1,4 @@
-﻿namespace EagleEye.Contents.Constants
+﻿namespace EagleEye.Pwas.Constants
 {
     public class LocalNotificationMethodNames
     {

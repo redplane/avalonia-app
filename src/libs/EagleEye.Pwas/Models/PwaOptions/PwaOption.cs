@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using EagleEye.Contents.Interfaces;
+using System.Collections.Specialized;
+using EagleEye.Pwas.Interfaces;
 
-namespace EagleEye.Contents.Models.PwaOptions
+namespace EagleEye.Pwas.Models.PwaOptions
 {
     public abstract class PwaOption
     {
@@ -27,7 +28,7 @@ namespace EagleEye.Contents.Models.PwaOptions
             _nativeMethods.AddLast(nativeMethod);
             return this;
         }
-        
+
         #endregion
     }
 }

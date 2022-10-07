@@ -1,4 +1,4 @@
-﻿namespace EagleEye.Contents.Enums
+﻿namespace EagleEye.Pwas.Enums
 {
     public enum ExecutionResults
     {

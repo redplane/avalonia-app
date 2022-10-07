@@ -7,3 +7,8 @@
 /src/libs/EagleEye.Contents/bin
 /.idea
 /.vs
+/src/libs/EagleEye.Pwas/obj
+/src/libs/EagleEye.Pwas/bin
+/src/mobile-apps/EagleEye.Apps.Mobile/obj
+/src/mobile-apps/EagleEye.Apps.Mobile/bin
+/src/mobile-apps/EagleEye.Apps.Mobile/EagleEye.Apps.Mobile.csproj.user

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using EagleEye.Apps.Models.Pwas;
-using EagleEye.Contents.Models;
+using EagleEye.Pwas.Models;
 
 namespace EagleEye.Apps.Services.Abstractions;
 

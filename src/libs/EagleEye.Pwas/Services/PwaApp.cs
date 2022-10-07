@@ -9,19 +9,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
-using EagleEye.Contents.Constants;
-using EagleEye.Contents.Handlers;
-using EagleEye.Contents.Interfaces;
-using EagleEye.Contents.Methods;
-using EagleEye.Contents.Models;
-using EagleEye.Contents.Models.PwaOptions;
+using EagleEye.Pwas.Constants;
+using EagleEye.Pwas.Handlers;
+using EagleEye.Pwas.Interfaces;
+using EagleEye.Pwas.Methods;
+using EagleEye.Pwas.Models;
+using EagleEye.Pwas.Models.PwaOptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WebViewControl;
 
-namespace EagleEye.Contents.Services
+namespace EagleEye.Pwas.Services
 {
     public class PwaApp : IDisposable
     {

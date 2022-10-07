@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EagleEye.Apps.Models.Pwas;
 using EagleEye.Apps.Services.Abstractions;
-using EagleEye.Contents.Models;
+using EagleEye.Pwas.Models;
 using Newtonsoft.Json;
 
 namespace EagleEye.Apps.Services.Implementations;

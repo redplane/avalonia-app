@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using EagleEye.Contents.Models;
+using EagleEye.Pwas.Models;
 
-namespace EagleEye.Contents.Interfaces
+namespace EagleEye.Pwas.Interfaces
 {
     public interface INativeMethod
     {

@@ -1,4 +1,4 @@
-﻿namespace EagleEye.Contents.Models
+﻿namespace EagleEye.Pwas.Models
 {
     public class GetNextPwaVersionResult
     {

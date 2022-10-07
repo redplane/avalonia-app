@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Reactive;
-using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Avalonia.Controls.Notifications;
-using EagleEye.Contents.Constants;
-using EagleEye.Contents.Enums;
-using EagleEye.Contents.Interfaces;
-using EagleEye.Contents.Models;
-using EagleEye.Contents.Models.MethodPayloads;
+using EagleEye.Pwas.Constants;
+using EagleEye.Pwas.Enums;
+using EagleEye.Pwas.Interfaces;
+using EagleEye.Pwas.Models;
+using EagleEye.Pwas.Models.MethodPayloads;
 using Newtonsoft.Json;
-using Notification = Avalonia.Controls.Notifications.Notification;
 
-namespace EagleEye.Contents.Methods
+namespace EagleEye.Pwas.Methods
 {
     public class LocalPushNativeMethod : INativeMethod
     {

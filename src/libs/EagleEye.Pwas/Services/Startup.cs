@@ -1,13 +1,12 @@
 ﻿using System;
 using System.IO;
-using EagleEye.Contents.Constants;
+using EagleEye.Pwas.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 
-namespace EagleEye.Contents.Services
+namespace EagleEye.Pwas.Services
 {
     public class Startup : IStartup
     {

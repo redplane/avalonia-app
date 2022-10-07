@@ -28,6 +28,6 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\..\Back-end\RxMessageBus\RxMessageBus\RxMessageBus.csproj" />
-      <ProjectReference Include="..\..\libs\EagleEye.Contents\EagleEye.Contents.csproj" />
+      <ProjectReference Include="..\..\libs\EagleEye.Pwas\EagleEye.Pwas.csproj" />
     </ItemGroup>
 </Project>

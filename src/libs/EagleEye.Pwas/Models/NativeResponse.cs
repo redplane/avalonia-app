@@ -1,40 +1,38 @@
-﻿using System;
-
-namespace EagleEye.Contents.Models
+﻿namespace EagleEye.Pwas.Models
 {
-    public class NativeRequest
+    public class NativeResponse
     {
         #region Properties
-        
+
         public string Id { get; private set; }
         
         public string Namespace { get; set; }
-
-        public string Method { get; set; }
         
+        public string Method { get; set; }
+
         #endregion
         
         #region Constructor
 
-        public NativeRequest(string id)
+        public NativeResponse(string id)
         {
             Id = id;
         }
-        
+
         #endregion
     }
-    
-    public class NativeRequest<T> : NativeRequest
+
+    public class NativeResponse<T> : NativeResponse
     {
         #region Properties
-        
-        public T Data { get; set; }
 
+        public T Data { get; set; }
+        
         #endregion
         
         #region Constructor
 
-        public NativeRequest(string id) : base(id)
+        public NativeResponse(string id): base(id)
         {
         }
 

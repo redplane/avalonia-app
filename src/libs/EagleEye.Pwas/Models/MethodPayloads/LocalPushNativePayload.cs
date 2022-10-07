@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EagleEye.Contents.Models.MethodPayloads
+namespace EagleEye.Pwas.Models.MethodPayloads
 {
     public class LocalPushNativePayload
     {
